@@ -1,6 +1,6 @@
 {
   "name": "batch-work-executor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Thread pool implementation inspired by ethereum-etl BatchWorkExecutor (and Piscina).",
   "main": "lib/index",
   "types": "lib/index",
@@ -32,6 +32,6 @@
     "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
     "precommit": "npm run prettier:write",
     "release": "standard-version",
-    "postrelease": "git push --follow-tags origin master && npm publish"
+    "postrelease": "git push --follow-tags origin main && npm publish"
   }
 }
