@@ -1,5 +1,5 @@
 import { dynamicBatchIterator } from './utils/utils';
-import { Worker } from './worker_pool';
+import { WorkerPool } from './worker_pool';
 import { getLogger } from './utils/logger';
 
 const _logger = getLogger('BatchWorkExecutor');
@@ -7,7 +7,7 @@ const _logger = getLogger('BatchWorkExecutor');
 export class BatchWorkExecutor<Args extends any[], Ret = any> {
   private batchSize: number;
   private maxWorkers: number;
-  private executor: Worker<any> | undefined;
+  private workerPool: WorkerPool<any> | undefined;
 
   constructor(batchSize: number, maxWorkers: number) {
     this.batchSize = batchSize;
@@ -18,8 +18,8 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
     workIterable: Iterable<any>,
     workerFile: string,
     ...args: Args
-  ) {
-    this.executor = new Worker(workerFile, { maxWorkers: this.maxWorkers });
+  ): Promise<any[]> {
+    this.workerPool = new WorkerPool(workerFile, { maxWorkers: this.maxWorkers });
     _logger.info(`WorkerPool created.`);
 
     let result: Array<any> = [];
@@ -27,7 +27,7 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
       workIterable,
       () => this.batchSize
     )) {
-      result.push(this.executor.run(batch, ...args));
+      result.push(this.workerPool.run(batch, ...args));
     }
 
     result = await Promise.all(result);
@@ -36,6 +36,6 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
 
   shutdown() {
     _logger.info('Shutting down WorkerPool...');
-    this.executor?.shutdown();
+    this.workerPool?.shutdown();
   }
 }
