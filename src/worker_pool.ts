@@ -58,9 +58,7 @@ export class WorkerPool<Args extends any[], Ret = any> {
         }
 
         if (this.pool.length < this.maxWorkers) {
-            const worker = new _Worker(this.workerFile, {
-                trackUnmanagedFds: true,
-            }) as NodeWorker;
+            const worker = new _Worker(this.workerFile, {}) as NodeWorker;
 
             worker.on('message', (res) => {
                 worker.currentResolve && worker.currentResolve(res);

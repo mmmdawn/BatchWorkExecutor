@@ -18,7 +18,7 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
     workIterable: Iterable<any>,
     workerFile: string,
     ...args: Args
-  ) {
+  ): Promise<any[]> {
     this.workerPool = new WorkerPool(workerFile, { maxWorkers: this.maxWorkers });
     _logger.info(`WorkerPool created.`);
 
