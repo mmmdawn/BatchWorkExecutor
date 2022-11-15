@@ -1,6 +1,6 @@
 {
   "name": "batch-work-executor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Thread pool implementation inspired by ethereum-etl BatchWorkExecutor (and Piscina).",
   "main": "lib/index",
   "types": "lib/index",
