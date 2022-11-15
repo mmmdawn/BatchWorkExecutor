@@ -36,6 +36,7 @@
     "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
     "precommit": "npm run prettier:write",
     "release": "standard-version",
-    "postrelease": "git push --follow-tags origin main && npm publish"
+    "postrelease": "git push --follow-tags origin main && npm publish",
+    "test": "jest"
   }
 }
