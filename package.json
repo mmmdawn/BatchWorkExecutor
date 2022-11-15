@@ -4,10 +4,10 @@
   "description": "Thread pool implementation inspired by ethereum-etl BatchWorkExecutor (and Piscina).",
   "main": "lib/index",
   "types": "lib/index",
-  "test": "jest",
   "repository": "git@github.com:mmmdawn/BatchWorkExecutor.git",
   "author": "dawn <congminh292k@gmail.com>",
   "license": "MIT",
+  "files": ["/lib"],
   "dependencies": {
     "winston": "^3.8.2"
   },
