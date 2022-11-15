@@ -1,13 +1,15 @@
 {
   "name": "batch-work-executor",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Thread pool implementation inspired by ethereum-etl BatchWorkExecutor (and Piscina).",
   "main": "lib/index",
   "types": "lib/index",
   "repository": "git@github.com:mmmdawn/BatchWorkExecutor.git",
   "author": "dawn <congminh292k@gmail.com>",
   "license": "MIT",
-  "files": ["/lib"],
+  "files": [
+    "/lib"
+  ],
   "dependencies": {
     "winston": "^3.8.2"
   },

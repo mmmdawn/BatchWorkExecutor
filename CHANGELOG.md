@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/mmmdawn/BatchWorkExecutor/compare/v0.1.4...v0.2.0) (2022-11-15)
+
+
+### Features
+
+* unit test with jest ([23eae10](https://github.com/mmmdawn/BatchWorkExecutor/commit/23eae10522c2c05f22772d9bf16788c77a43f151))
+
 ### [0.1.4](https://github.com/mmmdawn/BatchWorkExecutor/compare/v0.1.3...v0.1.4) (2022-11-14)
 
 
