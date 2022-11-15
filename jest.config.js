@@ -1,9 +1,8 @@
 module.exports = {
     "roots": [
-        "<rootDir>"
+        "<rootDir>/lib"
     ],
     "testMatch": [
-        "**/test/**/*.+(ts|tsx|js)",
         "**/?(*.)+(spec|test).+(ts|tsx|js)"
     ],
     "transform": {
