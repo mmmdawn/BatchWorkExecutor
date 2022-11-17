@@ -37,13 +37,9 @@ export class WorkerPool<Args extends any[], Ret = any> {
 
     stop() {
         this.pool.forEach((w) => w.unref())
-        this.queue.forEach(([_, reject]) =>
-            reject(
-                new Error(
-                    'Main worker pool stopped before a worker was available.'
-                )
-            )
-        )
+        this.queue.forEach(([_, reject]) => {
+            reject(new Error('Main worker pool stopped before a worker was available.'))
+        })
         this.pool = []
         this.idlePool = []
         this.queue = []
