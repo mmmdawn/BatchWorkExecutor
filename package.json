@@ -33,7 +33,7 @@
     "start": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts",
-    "prettier:base": "prettier --parser typescript --single-quote",
+    "prettier:base": "prettier --parser typescript --single-quote --tab-width 4 --no-semi",
     "prettier:check": "npm run prettier:base -- --list-different \"src/**/*.{ts,tsx}\"",
     "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\"",
     "precommit": "npm run prettier:write",
