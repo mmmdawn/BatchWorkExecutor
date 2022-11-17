@@ -1,1 +1,1 @@
-export {BatchWorkExecutor} from './batch_work_executor'
+export { BatchWorkExecutor } from './batch_work_executor'

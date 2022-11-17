@@ -1,4 +1,4 @@
-const {parentPort} = require('worker_threads')
+const { parentPort } = require('worker_threads')
 
 parentPort.on('message', (args: any[]) => {
     const numbers: number[] = args[0]
