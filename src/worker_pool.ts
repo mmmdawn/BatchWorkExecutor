@@ -14,8 +14,8 @@ export interface Options {
 }
 
 export class WorkerPool<Args extends any[], Ret = any> {
-    private workerFile: string
-    private maxWorkers: number
+    private readonly workerFile: string
+    private readonly maxWorkers: number
 
     private pool: NodeWorker[] = []
     private idlePool: NodeWorker[] = []
