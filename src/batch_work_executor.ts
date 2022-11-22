@@ -18,7 +18,6 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
         this.workerPool = WorkerPool.getInstance(workerFile, {
             maxWorkers: this.maxWorkers,
         })
-        _logger.info(`WorkerPool created.`)
 
         let result: Array<any> = []
         for (const batch of dynamicBatchIterator(workIterable, () => this.batchSize)) {

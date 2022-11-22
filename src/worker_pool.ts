@@ -25,6 +25,7 @@ export class WorkerPool<Args extends any[], Ret = any> {
     private constructor(workerFile: string, options: Options = {}) {
         this.workerFile = workerFile
         this.maxWorkers = options.maxWorkers || Math.max(1, cpus().length - 1)
+        _logger.info(`WorkerPool created.`)
     }
 
     public static getInstance(workerFile: string, options: Options = {}): WorkerPool<any> {
@@ -48,12 +49,13 @@ export class WorkerPool<Args extends any[], Ret = any> {
     }
 
     stop() {
+        _logger.info('Stopping workers. . .')
         this.pool.forEach((w) => w.unref())
         this.queue.forEach(([_, reject]) => {
             reject(new Error('Main worker pool stopped before a worker was available.'))
         })
-        this.pool = []
-        this.idlePool = []
+        // this.pool = []
+        // this.idlePool = []
         this.queue = []
     }
 
