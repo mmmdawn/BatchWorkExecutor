@@ -30,7 +30,7 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
         }
 
         result = await Promise.all(result)
-        this.workerPool.stop()
+        this.workerPool.suspend()
         return result
     }
 

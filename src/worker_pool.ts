@@ -66,6 +66,16 @@ export class WorkerPool<Args extends any[], Ret = any> {
         this.queue = []
     }
 
+    suspend() {
+        _logger.info('Suspending workers. . .')
+        this.pool.forEach((w) => w.terminate())
+        this.queue.forEach(([_, reject]) => {
+            reject(new Error('Main worker pool stopped before a worker was available.'))
+        })
+        this.pool = []
+        this.queue = []
+    }
+
     shutdown() {
         this.pool.forEach(async (w) => {
             await w.terminate()
