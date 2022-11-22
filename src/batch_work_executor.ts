@@ -1,22 +1,27 @@
 import {dynamicBatchIterator} from './utils/utils'
 import {WorkerPool} from './worker_pool'
 import {getLogger} from './utils/logger'
+import {WorkerOptions} from "node:worker_threads";
 
 const _logger = getLogger('BatchWorkExecutor')
 
 export class BatchWorkExecutor<Args extends any[], Ret = any> {
-    private batchSize: number
-    private maxWorkers: number
+    private readonly batchSize: number
+    private readonly maxWorkers: number
+    private readonly workerOptions: WorkerOptions
+
     private workerPool: WorkerPool<any> | undefined
 
-    constructor(batchSize: number, maxWorkers: number) {
+    constructor(batchSize: number, maxWorkers: number, workerOptions: WorkerOptions) {
         this.batchSize = batchSize
         this.maxWorkers = maxWorkers
+        this.workerOptions = workerOptions
     }
 
     async execute(workIterable: Iterable<any>, workerFile: string, ...args: Args): Promise<any[]> {
         this.workerPool = WorkerPool.getInstance(workerFile, {
             maxWorkers: this.maxWorkers,
+            workerOptions: this.workerOptions
         })
 
         let result: Array<any> = []
