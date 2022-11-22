@@ -1,5 +1,5 @@
 import { cpus } from 'node:os'
-import { Worker as _Worker } from 'node:worker_threads'
+import { Worker as _Worker, WorkerOptions, ResourceLimits } from 'node:worker_threads'
 import { getLogger } from './utils/logger'
 
 const _logger = getLogger('WorkerPool')
@@ -9,26 +9,33 @@ interface NodeWorker extends _Worker {
     currentReject: ((err: Error) => void) | null
 }
 
-export interface Options {
-    maxWorkers?: number
+export interface PoolOptions {
+    maxWorkers?: number,
+    workerOptions?: WorkerOptions
 }
 
 export class WorkerPool<Args extends any[], Ret = any> {
     private static workerPool: WorkerPool<any>
     private readonly workerFile: string
     private readonly maxWorkers: number
+    private readonly workerOptions: WorkerOptions
 
     private pool: NodeWorker[] = []
     private idlePool: NodeWorker[] = []
     private queue: [(worker: NodeWorker) => void, (err: Error) => void][] = []
 
-    private constructor(workerFile: string, options: Options = {}) {
+    private constructor(workerFile: string, options: PoolOptions = {}) {
         this.workerFile = workerFile
         this.maxWorkers = options.maxWorkers || Math.max(1, cpus().length - 1)
+        this.workerOptions = options.workerOptions || {
+            resourceLimits: {
+                maxOldGenerationSizeMb: 100
+            }
+        }
         _logger.info(`WorkerPool created.`)
     }
 
-    public static getInstance(workerFile: string, options: Options = {}): WorkerPool<any> {
+    public static getInstance(workerFile: string, options: PoolOptions = {}): WorkerPool<any> {
         if (!WorkerPool.workerPool) {
             if (!workerFile) {
                 throw new Error('No worker file exception')
@@ -70,7 +77,7 @@ export class WorkerPool<Args extends any[], Ret = any> {
         }
 
         if (this.pool.length < this.maxWorkers) {
-            const worker = new _Worker(this.workerFile, {}) as NodeWorker
+            const worker = new _Worker(this.workerFile, this.workerOptions) as NodeWorker
 
             worker.on('message', (res) => {
                 worker.currentResolve && worker.currentResolve(res)
