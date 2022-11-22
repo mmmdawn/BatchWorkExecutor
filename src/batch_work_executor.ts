@@ -15,7 +15,7 @@ export class BatchWorkExecutor<Args extends any[], Ret = any> {
     }
 
     async execute(workIterable: Iterable<any>, workerFile: string, ...args: Args): Promise<any[]> {
-        this.workerPool = new WorkerPool(workerFile, {
+        this.workerPool = WorkerPool.getInstance(workerFile, {
             maxWorkers: this.maxWorkers,
         })
         _logger.info(`WorkerPool created.`)
