@@ -54,14 +54,14 @@ export class WorkerPool<Args extends any[], Ret = any> {
         this.queue.forEach(([_, reject]) => {
             reject(new Error('Main worker pool stopped before a worker was available.'))
         })
-        // this.pool = []
-        // this.idlePool = []
+        this.pool = []
+        this.idlePool = []
         this.queue = []
     }
 
     shutdown() {
-        this.pool.forEach((w) => w.terminate())
-        this.idlePool.forEach((w) => w.terminate())
+        this.pool.forEach(async (w) => {await w.terminate()})
+        this.idlePool.forEach(async (w) => {await w.terminate()})
     }
 
     private async _getAvailableWorker(): Promise<NodeWorker> {
