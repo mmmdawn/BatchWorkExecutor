@@ -1,6 +1,6 @@
-import { cpus } from 'node:os'
-import { Worker as _Worker, WorkerOptions, ResourceLimits } from 'node:worker_threads'
-import { getLogger } from './utils/logger'
+import {cpus} from 'node:os'
+import {Worker as _Worker, WorkerOptions} from 'node:worker_threads'
+import {getLogger} from './utils/logger'
 
 const _logger = getLogger('WorkerPool')
 
@@ -67,8 +67,12 @@ export class WorkerPool<Args extends any[], Ret = any> {
     }
 
     shutdown() {
-        this.pool.forEach(async (w) => {await w.terminate()})
-        this.idlePool.forEach(async (w) => {await w.terminate()})
+        this.pool.forEach(async (w) => {
+            await w.terminate()
+        })
+        this.idlePool.forEach(async (w) => {
+            await w.terminate()
+        })
     }
 
     private async _getAvailableWorker(): Promise<NodeWorker> {
