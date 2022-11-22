@@ -14,6 +14,7 @@ export interface Options {
 }
 
 export class WorkerPool<Args extends any[], Ret = any> {
+    private static workerPool: WorkerPool<any>
     private readonly workerFile: string
     private readonly maxWorkers: number
 
@@ -21,9 +22,20 @@ export class WorkerPool<Args extends any[], Ret = any> {
     private idlePool: NodeWorker[] = []
     private queue: [(worker: NodeWorker) => void, (err: Error) => void][] = []
 
-    constructor(workerFile: string, options: Options = {}) {
+    private constructor(workerFile: string, options: Options = {}) {
         this.workerFile = workerFile
         this.maxWorkers = options.maxWorkers || Math.max(1, cpus().length - 1)
+    }
+
+    public static getInstance(workerFile: string, options: Options = {}): WorkerPool<any> {
+        if (!WorkerPool.workerPool) {
+            if (!workerFile) {
+                throw new Error('No worker file exception')
+            }
+            WorkerPool.workerPool = new WorkerPool(workerFile, options)
+        }
+
+        return WorkerPool.workerPool
     }
 
     async run(...args: Args): Promise<Ret> {
